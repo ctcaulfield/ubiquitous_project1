@@ -1,0 +1,11 @@
+Rock, Paper, Scissors with connected devices
+
+Concept: clicker, twister, and touch sensor 
+
+Notes:
+
+-Devices will be connected to the server 
+-Server shows the score of the game 
+-Server does a countdown for devices to submit their "attack" option
+-Server shows who won the round
+
