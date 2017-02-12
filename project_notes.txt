@@ -1,6 +1,6 @@
 Rock, Paper, Scissors with connected devices
 
-Concept: clicker, twister, and touch sensor 
+Concept: clicker, magnetic, and touch sensor 
 
 Notes:
 
