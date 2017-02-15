@@ -27,9 +27,8 @@ ws.addEventListener("message", function(e) {
 	 // document.getElementById("currentTemp").innerHTML="<p>As of "+new Date()+", Current "+msg+" degrees Celsius</p>";
 });
 
-
+//create the player - this will only be done once for each bean connected
 function setPlayer(data){
-	//create the player
 
 	//player div with id of their username from bean
 	var playerDiv = document.createElement("div");
@@ -40,17 +39,37 @@ function setPlayer(data){
 	players.append(playerDiv);
 
 	//give the player a name and append to the player div
-	var playerTitle = document.createElement("H1");
-	playerDiv.appendChild(playerTitle);
-	playerTitle.createTextNode(data); 
+	var name = document.createElement("H2");
+	playerDiv.appendChild(name);
+	name.createTextNode(data);
 
+	//give the player their "draw hand"
+	//which will display rock,paper,or sissors
+	var drawHand = document.createElement("H4");
+	element.classList.add("drawHand");
+	playerDiv.appendChild(drawHand);
+
+	//give the player their score!
+	var score = document.createElement("H4");
+	element.classList.add("score");	
+	playerDiv.appendChild(score);
 
 }
 
+//gets the players duel selection and sets it to their "DrawHand"
 function letsDuel(data){
-	// data = "a_b", where a is their userid and b is their duel
+	// data = "a_b", where a is their userid and b is their duel move
 	var info = string.split('_');
-	var players = document.getElementById(info[0]);
+	var player = document.getElementById(info[0]);
+	var drawHand = player.getElementByClassName("drawHand")[0];
+	drawHand.innerHTML = info[1];
+
+}
+
+
+//logic will go here of determing who won the round
+function winner(){
+
 }
 
 
