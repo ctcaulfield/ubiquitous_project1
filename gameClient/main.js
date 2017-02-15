@@ -29,42 +29,34 @@ ws.addEventListener("message", function(e) {
 
 
 function setPlayer(data){
-	//give give that side of the scoreboard their name
+	//create the player
+
+	//player div with id of their username from bean
+	var playerDiv = document.createElement("div");
+	playerDiv.id = data;
+
+	//add playerDiv to parent div of all players
+	var players = document.getElementById("players");
+	players.append(playerDiv);
+
+	//give the player a name and append to the player div
+	var playerTitle = document.createElement("H1");
+	playerDiv.appendChild(playerTitle);
+	playerTitle.createTextNode(data); 
+
+
 }
 
 function letsDuel(data){
-	//data will show - id-paper, so we know which one sent them move
-	//and where to place the selection under
+	// data = "a_b", where a is their userid and b is their duel
+	var info = string.split('_');
+	var players = document.getElementById(info[0]);
 }
 
-
-
-// function outputUpdate(which,val) {
-// 	var selector = "Value";
-// 	switch (which) {
-// 		case 'red': 
-// 			selector = "#red"+selector;
-// 			break;
-// 		case 'green': 
-// 			selector = "#green"+selector;
-// 			break;
-// 		case 'blue': 
-// 			selector = "#blue"+selector;
-// 			break;
-// 	}
-	
-// 	document.querySelector(selector).value = val;
-// 	var message = which.substr(0,1)+":"+val;
-// 	ws.send(message); 
-// }
 
 function turnOff() {
 	ws.send("OFF:");
 }
-
-// function getTemp() {
-// 	ws.send("TEMP:");
-// }
 
 //Once the timer is completed the state
 //will be requested from each of the beans
