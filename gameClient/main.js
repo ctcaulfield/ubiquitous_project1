@@ -21,7 +21,7 @@ ws.addEventListener("message", function(e) {
 	 	break;
 
 	 	case "STATE":
-	 		setPlayer(message[1]);
+	 		addWeapon(message[1]);
 	 	break;
 	 }
 	 // document.getElementById("currentTemp").innerHTML="<p>As of "+new Date()+", Current "+msg+" degrees Celsius</p>";
@@ -57,7 +57,7 @@ function setPlayer(data){
 }
 
 //gets the players duel selection and sets it to their "DrawHand"
-function letsDuel(data){
+function addWeapon(data){
 	// data = "a_b", where a is their userid and b is their duel move
 	var info = string.split('_');
 	var player = document.getElementById(info[0]);
@@ -66,9 +66,15 @@ function letsDuel(data){
 
 }
 
-
 //logic will go here of determing who won the round
-function winner(){
+function letsDuel(){
+	//loop through players and get the weapon of each player.
+
+	//Determine which player won based on game rules
+
+	//append a point to the players score based on who won
+
+	//increment the round count once the round is over.
 
 }
 
