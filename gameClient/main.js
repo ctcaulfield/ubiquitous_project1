@@ -12,19 +12,18 @@ ws.addEventListener("message", function(e) {
 	 // The data is simply the message that we're sending back     
 	 var msg = e.data;      
 	 console.log(msg);
+	 document.getElementById("players").innerHTML="<p>"+msg+"</p>";
 	 //message will come in as "x:data" - where x is the 
 	 //type of information and data is the information
-	 var message = string.split(':');
-	 switch(array[0]){
-	 	case "PLAYER":
-	 		setPlayer(message[1]);
-	 	break;
-
-	 	case "STATE":
-	 		addWeapon(message[1]);
-	 	break;
-	 }
-	 // document.getElementById("currentTemp").innerHTML="<p>As of "+new Date()+", Current "+msg+" degrees Celsius</p>";
+//  	 var message = string.split(':');
+//  	 switch(array[0]){
+//  	 	case "PLAYER":
+//  	 		setPlayer(message[1]);
+//  	 	break;
+//  	 	case "STATE":
+//  	 		addWeapon(message[1]);
+//  	 	break;
+//  	 }
 });
 
 //create the player - this will only be done once for each bean connected

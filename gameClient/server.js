@@ -5,7 +5,7 @@ var isUp = false;
 var isDown = false;
 var startTime;
 var endTime;
-
+var name = "";
 var exitHandlerBound = false;
 var maxPeripherals = 1;
 var peripherals = [];
@@ -74,12 +74,13 @@ noble.on('stateChange', function(state) {
 
 noble.on('discover', function(peripheral) {
   //if want to check the name two see if it's one we want or not:
-  var desiredDevices = ["Sonic Boom"];   
+  var desiredDevices = ["Sonic Boom", "Mary Rose's Bean"];   
   //alternative if naming desired devices like Bryan1, Bryan2, etc: 
   //peripheral.advertisement.localName.indexOf('Bryan') > -1
   if (peripheral.advertisement.localName && 
       desiredDevices.indexOf(peripheral.advertisement.localName) > -1) {
       console.log('Found device with local name: ' + peripheral.advertisement.localName);
+      name = peripheral.advertisement.localName;
       console.log('Device UUID: ' + peripheral.uuid);
       console.log('advertising the following service uuid\'s: ' + peripheral.advertisement.serviceUuids);
       console.log();
@@ -156,7 +157,7 @@ var requestNotify = function(characteristic)
       var dataString = data.toString('ascii').trim();
       console.log(dataString);
       if (client) {
-        client.sendUTF(utf8.encode(dataString));
+        client.sendUTF(utf8.encode(name+":"+dataString));
       }
 
   }); //callback
