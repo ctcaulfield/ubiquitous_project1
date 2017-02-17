@@ -1,14 +1,14 @@
-
 var noble = require('noble');
 
 var isUp = false;
 var isDown = false;
 var startTime;
 var endTime;
-var name = "";
 var exitHandlerBound = false;
-var maxPeripherals = 1;
+var maxPeripherals = 3;
 var peripherals = [];
+var beanNames = [];
+var count = 0;
 
 var http = require('http'); 
 var server = http.createServer(function(request, response) {
@@ -38,16 +38,19 @@ wsServer.on('request', function(request){
      var msgString = message.utf8Data; 
      console.log("Message received: "+msgString);     
       //set scratch 1 to command
-     if (peripherals.length == 1) { 
+     if (peripherals.length >= 1) { 
     /*    withoutResponse:
         false: send a write request, used with "write" characteristic property
         true: send a write command, used with "write without response" characteristic property
     */
         // buffer, withoutResponse is true|false
-      peripherals[0]['characteristics'][0].write(new Buffer(msgString, "binary"), true, function(error) {
+
+      for(i=0;i>count;i++){
+        peripherals[i]['characteristics'][0].write(new Buffer(msgString, "binary"), true, function(error) {
               console.log("sent message: "+msgString);
-          }); 
-     }
+        }); 
+      }
+    }
       
       }); 
       
@@ -80,6 +83,7 @@ noble.on('discover', function(peripheral) {
   if (peripheral.advertisement.localName && 
       desiredDevices.indexOf(peripheral.advertisement.localName) > -1) {
       console.log('Found device with local name: ' + peripheral.advertisement.localName);
+      beanNames.push(peripheral.advertisement.localName);
       name = peripheral.advertisement.localName;
       console.log('Device UUID: ' + peripheral.uuid);
       console.log('advertising the following service uuid\'s: ' + peripheral.advertisement.serviceUuids);
@@ -90,11 +94,9 @@ noble.on('discover', function(peripheral) {
 
 var connect = function(err){
   if (err) throw err;
-  
   console.log("Connection to " + this.peripheral.uuid)
- //*** Part 3
- peripherals[0] = {};
-  peripherals[0]['peripheral'] = this.peripheral;
+  peripherals[count] = {};
+  peripherals[count]['peripheral'] = this.peripheral;
 
   //stop discovering
   //noble.stopScanning();  
@@ -112,7 +114,6 @@ var connect = function(err){
   //*** end Part 3
   
   this.peripheral.discoverServices([], setupService);
-
 };
 
 //set up the notifications, which begines with discovering the devices 
@@ -134,22 +135,17 @@ var setupService = function(err,services) {
 
       
       service.discoverCharacteristics(characteristicUUIDs, function(error, characteristics) {
-//           for (var i in characteristics) {
-//             console.log('  ' + i + ' uuid: ' + characteristics[i].uuid);
-//           }
-
-        console.log("got characteristics");
-//*** Part 3
-      peripherals[0]['characteristics'] = characteristics;
-
-   requestNotify(characteristics[0]); //this is the first scratch characteristic: 0 to 3. 
-
+      console.log("got characteristics");
+      console.log(count);
+      peripherals[count]['characteristics'] = characteristics;
+      requestNotify(characteristics[0],count); //this is the first scratch characteristic: 0 to 3. 
+      count++;
     }); //discover characteristics
    }
   });
 };
 
-var requestNotify = function(characteristic)
+var requestNotify = function(characteristic,count)
 {
   //bound a read handler for updates. So whenever “data” is popping out of our characteristic updates,
   // we get a callback.
@@ -157,7 +153,7 @@ var requestNotify = function(characteristic)
       var dataString = data.toString('ascii').trim();
       console.log(dataString);
       if (client) {
-        client.sendUTF(utf8.encode(name+":"+dataString));
+        client.sendUTF(utf8.encode(beanNames[count]+":"+dataString));
       }
 
   }); //callback
@@ -186,4 +182,3 @@ var exitHandler = function exitHandler() {
 process.stdin.resume();//so the program will not close instantly
 
 //*** end Part 3
- 
