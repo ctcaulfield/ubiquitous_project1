@@ -60,7 +60,6 @@ wsServer.on('request', function(request){
       console.log((new Date()) + '  ' + client.remoteAddress + ' disconnected.'); 
    }); 
 });
-//*** end Part 3
 
 
 noble.on('stateChange', function(state) {
