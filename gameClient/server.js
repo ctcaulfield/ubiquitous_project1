@@ -5,7 +5,7 @@ var isDown = false;
 var startTime;
 var endTime;
 var exitHandlerBound = false;
-var maxPeripherals = 3;
+var maxPeripherals = 2;
 var peripherals = [];
 var beanNames = [];
 var count = 0;
@@ -152,7 +152,7 @@ var requestNotify = function(characteristic,count)
       var dataString = data.toString('ascii').trim();
       console.log("what was recieved in server.js: "+dataString);
       if (client) {
-        client.sendUTF(utf8.encode(beanNames[count]+":"+dataString));
+        client.sendUTF(utf8.encode(beanNames[count]+":"+dataString.substring(0, 1)));
       }
 
   }); //callback

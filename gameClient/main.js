@@ -1,6 +1,29 @@
 var ws = new WebSocket('ws://localhost:1234'); 
 var weaponChoices = new Object();
 
+var countdown = $("#countdown").countdown360({
+		radius      : 40,
+	  	seconds     : 15,
+	  	strokeWidth : 5,
+	  	fillStyle   : '#0276FD',
+	  	strokeStyle : '#003F87',
+	  	fontSize    : 30,
+	  	fontColor   : '#FFFFFF',
+	  	autostart: false,
+	  	onComplete  : function () { 
+			document.getElementsByClassName('weapon')[0].style.visibility='visible';
+			document.getElementsByClassName('weapon')[1].style.visibility='visible';
+	  		compareResults(); 
+	  	}
+});
+
+function letsPlay() {
+    countdown.start();
+  	//hide the players selection
+	document.getElementsByClassName('weapon')[0].style.visibility='hidden';
+	document.getElementsByClassName('weapon')[1].style.visibility='hidden';
+}
+
 ws.onopen = function () {
 	console.log("connected!!!");
 };
@@ -45,6 +68,13 @@ function setPlayer(data){
 	weaponDiv.className = "weapon";
 
 	document.getElementById(data).appendChild(weaponDiv);
+
+	var scoreDiv = document.createElement("div");
+	scoreDiv.className = "score";
+	scoreDiv.innerHTML = "<h2>score</h2><h3>0</h3>"
+
+	document.getElementById(data).appendChild(scoreDiv);
+
 }
 
 //gets the players duel selection and sets it to their "DrawHand"
@@ -53,11 +83,9 @@ function addWeapon(message){
 	player.getElementsByClassName("weapon")[0].innerHTML = "<h2>"+message[1]+"</h2>";
 }
 
-
-//clicker = 2
-//magnetSensor = 1  
-//touchSensor = 0
-//2 beats 0, 0 beats 1, 1 beats 2
+//touchSensor = 2 -> sissors
+//clicker = 1 -> paper
+//magnetSensor = 0 -> rock
 
 function compareResults(){
 
@@ -65,70 +93,79 @@ function compareResults(){
     
     //player 1 info
     var weapon1 = document.getElementsByClassName("weapon")[0];
-    var text1 = weapon1.getElementsByTagName("h2")[0].innerHTML;
-    console.log("1: "+text1);
+    var player1 = weapon1.getElementsByTagName("h2")[0].innerHTML;
+    console.log("player1 choice: "+player1);
 
     //player 2 info
     var weapon2 = document.getElementsByClassName("weapon")[1];
-    var text2 = weapon2.getElementsByTagName("h2")[0].innerHTML;
-    console.log("2: "+text2);
+    var player2 = weapon2.getElementsByTagName("h2")[0].innerHTML;
+    console.log("player2 choice: "+player2);
 
-    console.log("WORK!?!?!?!??!?!?!");
-    console.log("Compare results: " + text1 + " and " + text2);
+    var player1score = document.getElementsByClassName("score")[0].getElementsByTagName("h3")[0];
+    var player2score = document.getElementsByClassName("score")[1].getElementsByTagName("h3")[0];
+    var player1number = player1score.innerHTML;
+    var player2number = player2score.innerHTML;
 
-	// if(choice1 === "4" && choice2 === "4") {
-	// 	return "Nobody Wins"
-	// }
-	// if(choice1 === "4"){
-	// 	return "player 2 wins"
-	// } 
-	// if(choice2 === "4"){
-	// 	return "player 1 wins"
-	// }        	
-	// if (choice1 === choice2) {
-	//     return "It's a tie!";
-	// }
-	// if (choice1 === "rock") {
-	//     if (choice2 === "scissors") {
-	//         // rock wins
-	//         return "You win!";
-	//     } else {
-	//         // paper wins
-	//         return "You lose! Try again.";
-	//     }
-	// }
-	// if (choice1 === "paper") {
-	//     if (choice2 === "rock") {
-	//         // paper wins
-	//         return "You win!";
-	//     } else {
-	//         // scissors wins
-	//         return "You lose! Try again.";
-	//     }
-	// }
-	// if (choice1 === "scissors") {
-	//     if (choice2 === "rock") {
-	//         // rock wins
-	//         return "You lose! Try again.";
-	//     } else {
-	//         // scissors wins
-	//         return "You win!";
-	//     }
-	// }
-        // };
+    console.log("Comparing: player1 - " + player1 + " and player2 - " + player2);
 
-}
+	if(player1 === "4" && player2 === "4") {
+		console.log("Nobody Wins");
+	}
+	else if(player1 === "4"){
+		console.log("player 2 wins");
+		player2number++;
+		player2score.innerHTML = player2number;
+	}
+	else if(player2 === "4"){
+		console.log("player 1 wins");
+		player1number++;
+		player1score.innerHTML = player1number;
+
+	}        	
+	else if (player1 === player2) {
+	    console.log("It's a tie!");
+	}
+	else{
+		if (player1 === "0") {
+		    if (player2 === "2") {
+		        // rock wins
+		        console.log("Player 1 wins!");
+		        player1number++;
+		        player1score.innerHTML = player1number;
+		    } else {
+		        // paper wins
+		        console.log("Player 2 wins");
+		        player2number++;
+		        player2score.innerHTML = player2number;
+		    }
+		}
+		if (player1 === "1") {
+		    if (player2 === "0") {
+		        // paper wins
+		        console.log("Player 1 wins!");
+		        player1number++;
+		        player1score.innerHTML = player1number;
+		    } else {
+		        // scissors wins
+		        console.log("Player 2 wins!");
+		        player2number++;
+		        player2score.innerHTML = player2number;
+		    }
+		}
+		if (player1 === "2") {
+		    if (player2 === "0") {
+		        // rock wins
+		        console.log("Player 2 wins!");
+		        player2number++;
+		        player2score.innerHTML = player2number;
+		    } else {
+		        // scissors wins
+		        console.log("Player 1 wins!");
+		        player1number++;
+		        player1score.innerHTML = player1number;
+		    }
+		}
+	}
+};
 
 
-$("#countdown").countdown360(
-	{
-		radius      : 40,
-	  	seconds     : 5,
-	  	strokeWidth : 5,
-	  	fillStyle   : '#0276FD',
-	  	strokeStyle : '#003F87',
-	  	fontSize    : 30,
-	  	fontColor   : '#FFFFFF',
-	  	autostart: false,
-	  	onComplete  : function () { compareResults(); }
-}).start()

@@ -35,7 +35,7 @@ void loop() {
       char buffer[4]; //maximum size 4
       sprintf(buffer,"%d",currentState);
       Bean.setScratchData(1,(uint8_t*)&buffer,sizeof(buffer)+1);
-      Bean.sleep(5000);
+      Bean.sleep(2000);
 //    }
     
     // read the state of the pushbutton value:
