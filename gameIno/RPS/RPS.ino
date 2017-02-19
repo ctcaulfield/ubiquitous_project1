@@ -30,13 +30,13 @@ void loop() {
     
     String strCmd = getCommand();
  
-    if(strCmd == "DUEL"){
+//    if(strCmd == "DUEL"){
       //sending the message over to server.js
       char buffer[4]; //maximum size 4
       sprintf(buffer,"%d",currentState);
       Bean.setScratchData(1,(uint8_t*)&buffer,sizeof(buffer)+1);
-      //Bean.sleep(2000);
-    }
+      Bean.sleep(5000);
+//    }
     
     // read the state of the pushbutton value:
     int buttonState = digitalRead(buttonPin);

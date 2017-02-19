@@ -150,7 +150,7 @@ var requestNotify = function(characteristic,count)
   // we get a callback.
   characteristic.on('read', function(data, isNotification) {
       var dataString = data.toString('ascii').trim();
-      console.log(dataString);
+      console.log("what was recieved in server.js: "+dataString);
       if (client) {
         client.sendUTF(utf8.encode(beanNames[count]+":"+dataString));
       }
