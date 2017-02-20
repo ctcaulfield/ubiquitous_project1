@@ -1,0 +1,42 @@
+Group Project 1 - Devices for Sharing
+Christopher Caulfield, Mary Rose Weber
+Game - Rock, Paper, Scissors
+
+Problem: 
+
+We wanted to create a way to play the traditional game of rock, paper, scissors but to prevent there being communication issues between the players. Some think you say: “Rock, paper, scissors” then display your selection, while others do “Rock, paper, scissors, shoot!”. Allowing for the server to monitor the game - it allows the participants to enjoy the game stress free.
+
+Design Process:
+
+index.html - contains the interface showing devices in the game, score, and countdown.
+main.js - adds more dynamic functionality to index.html, gets information from the device via server.js 
+server.js - all server communication between the device and the ui
+node_modules - nodejs package
+RPS.ino - code for bean device and uses a method to communicate messages with server.js
+
+Challenges:
+
+Applying the dynamic features into index.html based on communication with the beans was difficult. In addition, connecting multiple devices took a couple hours to figure out.
+
+
+Bill of materials:
+
+	Hardware:
+•	LightBlue Bean
+•	Grove Expander Board
+•	Grove Button
+•	Grove Touch Sensor
+•	Grove Magnetic Switch
+•	Three Grove cables
+
+Each player need to have these materials.
+
+	Software/Files:
+•	Arduino
+•	Terminal
+•	Node.js
+•	JavaScript (Server.js & Main.js)
+•	HTML file
+
+No other hardware or products were used other than what was provided from class.
+

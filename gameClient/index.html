@@ -2,7 +2,9 @@
 <html>
 	<head>
 		<title>Rock, Paper, Sissors</title>
+		<!-- jquery -->
 	 	<script src="js/jquery.min.js"></script>
+	 	<!-- jquery countdown plugin -->
 	  	<script src="js/jquery.countdown360.min.js"></script>
 	</head>
 	<body>
@@ -13,10 +15,13 @@
 			clicker = 1 -> paper <br>
 			magnetSensor = 0 -> rock <br>
 		</p>
+		<!-- will store all players in the game -->
 		<div id="players"></div>
 
+		<!-- countdown -->
 		<div id="countdown"></div>
 
+		<!-- click button for countdown to begin -->
 		<button onclick="letsPlay()">Begin round!</button>
 
 		<script type="text/javascript" src="main.js"></script>

@@ -1,6 +1,8 @@
 var ws = new WebSocket('ws://localhost:1234'); 
 var weaponChoices = new Object();
 
+
+//countdown plugin from countdown360
 var countdown = $("#countdown").countdown360({
 		radius      : 40,
 	  	seconds     : 15,
@@ -9,7 +11,10 @@ var countdown = $("#countdown").countdown360({
 	  	strokeStyle : '#003F87',
 	  	fontSize    : 30,
 	  	fontColor   : '#FFFFFF',
-	  	autostart: false,
+	  	autostart: false, 
+	  	// once countdown is complete this is called
+	  	// showing the players weapons and calls compareResults()
+	  	// which will compare the weapons
 	  	onComplete  : function () { 
 			document.getElementsByClassName('weapon')[0].style.visibility='visible';
 			document.getElementsByClassName('weapon')[1].style.visibility='visible';
@@ -17,6 +22,8 @@ var countdown = $("#countdown").countdown360({
 	  	}
 });
 
+//calls the countdown - hides the weapons so players cannot see
+//what each other are choosing on the ui
 function letsPlay() {
     countdown.start();
   	//hide the players selection
@@ -64,11 +71,13 @@ function setPlayer(data){
 	var players = document.getElementById("players");
 	players.appendChild(playerDiv);
 
+	//create div storing players weapon selection
 	var weaponDiv = document.createElement("div");
 	weaponDiv.className = "weapon";
 
 	document.getElementById(data).appendChild(weaponDiv);
 
+	//create div to store the score
 	var scoreDiv = document.createElement("div");
 	scoreDiv.className = "score";
 	scoreDiv.innerHTML = "<h2>score</h2><h3>0</h3>"
@@ -86,9 +95,10 @@ function addWeapon(message){
 //touchSensor = 2 -> sissors
 //clicker = 1 -> paper
 //magnetSensor = 0 -> rock
-
+//comapres the results by the 2 players
 function compareResults(){
 
+	//get all players
     var players = document.getElementById("players");
     
     //player 1 info
@@ -101,6 +111,7 @@ function compareResults(){
     var player2 = weapon2.getElementsByTagName("h2")[0].innerHTML;
     console.log("player2 choice: "+player2);
 
+    //get the inner html of the score .class element since thats what we are changing
     var player1score = document.getElementsByClassName("score")[0].getElementsByTagName("h3")[0];
     var player2score = document.getElementsByClassName("score")[1].getElementsByTagName("h3")[0];
     var player1number = player1score.innerHTML;
